@@ -1,7 +1,35 @@
-<div class="example-container">
-  <mat-form-field>
-    <input matInput placeholder="Enter your email" [formControl]="email" required>
-    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-  </mat-form-field>
-</div>
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="conteiner">
+  <div class="form-box">
+    <form class="reg-form" novalidate [formGroup]="myRegForm"  >
+        <mat-form-field>
+        <input matInput placeholder="Enter email" formControlName="email">
+        <mat-hint>Password format user@uaer.az</mat-hint>
+        <mat-error *ngIf="myRegForm.get('email').hasError('required')" >Email required</mat-error>
+        <mat-error *ngIf="myRegForm.get('email').invalid && !myRegForm.get('email').hasError('required')" >Invalid input</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input placeholder="Password" matInput formControlName="password" >
+        <mat-hint>Password must be minimum 8 character</mat-hint>
+        <mat-error *ngIf="myRegForm.get('password').hasError('required')">Password required</mat-error>
+        <mat-error *ngIf="myRegForm.get('password').hasError('minlength')">Invalid input</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field >
+        <input placeholder="Confirm Password" matInput formControlName="password2" [errorStateMatcher]="passmach" >
+        <mat-hint>Confirm Password</mat-hint>
+        <mat-error *ngIf="myRegForm.hasError('passwordsDoNotMatch')" >Password not same</mat-error>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button (click)="onSubmit()" color="warn">Register</button>
+      <br>
+      {{myRegForm.value | json }}
+      <div>
+          Do passwords match?
+          <strong>{{!myRegForm.hasError('passwordsDoNotMatch')}}</strong>
+        </div>
+    </form>
 
+  </div>
+</div>
